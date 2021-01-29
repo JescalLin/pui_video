@@ -15,7 +15,7 @@ utils_ops.tf = tf.compat.v1
 tf.gfile = tf.io.gfile
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (640,  480))
+out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (540,  960))
 
 
 def load_model(model_name):
@@ -71,7 +71,7 @@ def box_area_check(img, boxes, scores):
     height = img.shape[0]
     width = img.shape[1]
     for i in range(len(scores)):
-        if scores[i]< 0.5:
+        if scores[i]< 0.3:
             scores[i] = 0
             boxes[i] = 0
 
@@ -105,11 +105,11 @@ def run_inference(model, category_index, cap):
         else:
             fps = 0
 
-        if fps == 15:
+        if fps == 5:
             out.write(image_np)
             fps = 0
         print(fps)
-        cv2.imshow('object_detection', cv2.resize(image_np, (640, 480)))
+        cv2.imshow('object_detection', cv2.resize(image_np, (540, 960)))
         key = cv2.waitKey(90)
         if key == 13:
             cap.release()
@@ -134,5 +134,5 @@ if __name__ == '__main__':
     category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture("D:/181190.t.mp4")
     run_inference(detection_model, category_index, cap)
