@@ -6,6 +6,7 @@
 當有手出現時就不錄製影像
 成果就像這樣
 
+![image](https://github.com/JescalLin/pui_video/blob/master/image/input.gif)
 
 
 
