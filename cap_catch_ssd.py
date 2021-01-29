@@ -1,3 +1,5 @@
+#自動模式 有手出現就不進行拍攝 沒有手出現時過5偵拍一次
+
 import numpy as np
 import argparse
 import tensorflow as tf
@@ -10,28 +12,12 @@ from object_detection.utils import visualization_utils as vis_util
 
 # patch tf1 into `utils.ops`
 utils_ops.tf = tf.compat.v1
-
 # Patch the location of gfile
 tf.gfile = tf.io.gfile
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (540,  960))
 
-
-def load_model(model_name):
-    base_url = 'http://download.tensorflow.org/models/object_detection/'
-    model_file = model_name + '.tar.gz'
-    model_dir = tf.keras.utils.get_file(
-        fname=model_name, 
-        origin=base_url + model_file,
-        untar=True)
-
-    model_dir = pathlib.Path(model_dir)/"saved_model"
-
-    model = tf.saved_model.load(str(model_dir))
-    model = model.signatures['serving_default']
-
-    return model
 
 
 def run_inference_for_single_image(model, image):
@@ -63,7 +49,6 @@ def run_inference_for_single_image(model, image):
         output_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
     
     return output_dict
-
 
 
 def box_area_check(img, boxes, scores):
@@ -99,7 +84,6 @@ def run_inference(model, category_index, cap):
             x,y,w,h = box
             cv2.rectangle(image_np, (x,y), (x+w,y+h), (255,0,0), 5)
 
-        
         if len(box_list)==0:
             fps = fps+1
         else:
@@ -108,6 +92,7 @@ def run_inference(model, category_index, cap):
         if fps == 5:
             out.write(image_np)
             fps = 0
+            print("catch")
         print(fps)
         cv2.imshow('object_detection', cv2.resize(image_np, (540, 960)))
         key = cv2.waitKey(90)
@@ -120,19 +105,11 @@ def run_inference(model, category_index, cap):
 
 if __name__ == '__main__':
 
-    # model_name = "box_frcnn800_20210127"
-    # PATH_TO_LABELS = 'data/mscoco_label_map.pbtxt'
-    # detection_model = load_model(model_name)
-    # category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
-
-
-    # model_name = "box_graph_rcnn_resnet101_all"
     model_name = "hand_inference_graph"
     PATH_TO_LABELS = 'hand.pbtxt'
     detection_model = tf.saved_model.load(str(model_name+"/saved_model"))
     detection_model = detection_model.signatures['serving_default']
     category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
-
-    cap = cv2.VideoCapture("D:/181190.t.mp4")
+    cap = cv2.VideoCapture(0)
     run_inference(detection_model, category_index, cap)
