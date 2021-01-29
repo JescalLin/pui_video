@@ -5,7 +5,7 @@
 目前想到了用SSD去客製化一個專門偵測手的Model<br/>
 當有手出現時就不錄製影像<br/>
 
-![image](https://github.com/JescalLin/pui_video/blob/master/image/input.gif)<br/>
+![image](https://github.com/JescalLin/pui_video/blob/master/image/demo.gif)<br/>
 成果就像這樣:<br/>
 ![image](https://github.com/JescalLin/pui_video/blob/master/image/output1.gif)<br/>
 ![image](https://github.com/JescalLin/pui_video/blob/master/image/output2.gif)<br/>
