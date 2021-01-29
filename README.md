@@ -1,4 +1,4 @@
-# pui_video (Stop-motion Animation Maker)
+# Pui_video (Stop-motion Animation Maker)
 最近天竺鼠車車很紅
 他的拍攝手法是停格動畫
 有什麼方法可以減少拍攝流程?<br/>
