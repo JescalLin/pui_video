@@ -5,12 +5,13 @@
 目前想到了用SSD去客製化一個專門偵測手的Model
 當有手出現時就不錄製影像
 成果就像這樣
-
+input
 ![image](https://github.com/JescalLin/pui_video/blob/master/image/input.gif)
+output
+![image](https://github.com/JescalLin/pui_video/blob/master/image/output.gif)
 
 
-
-目前Model 是使用
+目前Model還未自己訓練 是使用victordibia訓練好的Model
 https://github.com/victordibia/handtracking
 
 
